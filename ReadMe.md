@@ -33,6 +33,7 @@
 |项目名|说明|备注|
 |-|-|-|
 |GinDemos/Basic|基础的Demo||
+|GinDemos/gin-blog|使用gin开发一个blog的API||
 |github.com/gin-gonic/gin|..|..|
 
 ## Crawler(使用Golang写爬虫)
