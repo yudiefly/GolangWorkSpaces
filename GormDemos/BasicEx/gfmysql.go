@@ -58,9 +58,9 @@ func main() {
 
 	log.Println(tt)
 
-	// db.Create(&Language{
-	// 	Code: "c004",
-	// 	Name: "NM-0004",
-	// })
+	db.Create(&Language{
+		Code: "c005",
+		Name: "NM-0005",
+	})
 
 }
