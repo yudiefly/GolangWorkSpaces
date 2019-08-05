@@ -21,22 +21,38 @@ type Model struct {
 }
 
 func init() {
+
 	var (
 		err                                               error
 		dbType, dbName, user, password, host, tablePrefix string
 	)
+
 	sec, err := setting.Cfg.GetSection("database")
+
 	if err != nil {
 		log.Fatal(2, "Fail to get section 'database:'%v", err)
 	}
+
 	dbType = sec.Key("TYPE").String()
+
 	dbName = sec.Key("NAME").String()
 	user = sec.Key("USER").String()
 	password = sec.Key("PASSWORD").String()
 	host = sec.Key("HOST").String()
+
 	tablePrefix = sec.Key("TABLE_PREFIX").String()
 
-	db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=ture&loc=Local", user, password, host, dbName))
+	connStr3 := "root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
+	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, dbName)
+	connStr2 := user + ":" + password + "@tcp(" + host + ")/" + dbName + "?charset=utf8&parseTime=True&loc=Local"
+
+	fmt.Println(connStr)
+	fmt.Println(connStr2)
+	fmt.Println(connStr3)
+
+	fmt.Println(connStr == connStr3)
+
+	db, err = gorm.Open(dbType, connStr)
 
 	if err != nil {
 		log.Println(err)

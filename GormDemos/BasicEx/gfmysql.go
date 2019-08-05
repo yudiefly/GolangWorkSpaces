@@ -1,6 +1,7 @@
 package main
 
 import (
+	//"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -29,7 +30,21 @@ type Tag struct {
 }
 
 func main() {
-	db, err := gorm.Open("mysql", "root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local")
+
+	dbType := "mysql"
+
+	// dbUser := "root"
+	// dbPassword := "tjazzh203"
+	// dbHost := "127.0.0.1:3306"
+	// dbName := "blog"
+
+	// fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPassword, dbHost, dbName)
+
+	//数据库连接字符串
+	//"root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
+
+	db, err := gorm.Open(dbType, "root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local")
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,17 +65,17 @@ func main() {
 	//db.Exec("INSERT INTO blog_tag(name,created_on,created_by,modified_on,modified_by,state) VALUES ('test-one-in', 'testadmin','testadmin','0','testadmin','1')", nil)
 
 	tt := db.Create(&Tag{
-		Name:       "test-one-2",
-		CreatedBy:  "testadmin-2",
-		ModifiedBy: "testadmin-2",
+		Name:       "test-one-3",
+		CreatedBy:  "testadmin-3",
+		ModifiedBy: "testadmin-3",
 		State:      0,
 	}).Error
 
 	log.Println(tt)
 
 	db.Create(&Language{
-		Code: "c005",
-		Name: "NM-0005",
+		Code: "c006",
+		Name: "NM-0006",
 	})
 
 }
