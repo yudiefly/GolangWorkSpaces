@@ -62,9 +62,10 @@ func ExistTagByName(name string) bool {
 	return false
 }
 
+//AND deleted_on=?   , 0
 func ExistTagById(id int) bool {
 	var tag Tag
-	err := db.Select("id").Where("id=? AND deleted_on=?", id, 0).First(&tag).Error
+	err := db.Select("id").Where("id=? ", id).First(&tag).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false
 	}

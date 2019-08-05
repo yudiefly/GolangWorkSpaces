@@ -12,13 +12,13 @@ type Article struct {
 	TagID int `json:"tag_id" gorm:"index"`
 	Tag   Tag `json:"tag"`
 
-	Title         string `json:"title"`
-	Desc          string `json:"desc"`
-	Content       string `json:"content"`
-	CoverImageUrl string `json:"cover_image_url"`
-	CreatedBy     string `json:"created_by"`
-	ModifiedBy    string `json:"modified_by"`
-	State         int    `json:"state"`
+	Title   string `json:"title"`
+	Desc    string `json:"desc"`
+	Content string `json:"content"`
+	//CoverImageUrl string `json:"cover_image_url"`
+	CreatedBy  string `json:"created_by"`
+	ModifiedBy string `json:"modified_by"`
+	State      int    `json:"state"`
 }
 
 func (article *Article) BeforeCreate(scope *gorm.Scope) error {
@@ -45,9 +45,20 @@ func GetArticleTotal(maps interface{}) (count int) {
 	return
 }
 
-func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Article) {
-	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
-	return
+// func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Article) {
+// 	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
+// 	return
+// }
+
+func GetArticles(pageNum int, pageSize int, maps interface{}) ([]Article, error) {
+
+	var articles []Article
+	err := db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+
+	return articles, nil
 }
 
 func GetArticle(id int) (article Article) {
