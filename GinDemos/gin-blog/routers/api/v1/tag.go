@@ -58,13 +58,13 @@ func GetTags(c *gin.Context) {
 func AddTag(c *gin.Context) {
 	name := c.Query("name")
 	state, _ := com.StrTo(c.DefaultQuery("state", "0")).Int()
-	createBy := c.Query("create_by")
+	createdBy := c.Query("created_by")
 
 	//开始对参数进行验证
 	valid := validation.Validation{}
 	valid.Required(name, "name").Message("名称不能为空")
-	valid.Required(name, "create_by").Message("创建人不能为空")
-	valid.MaxSize(name, 100, "create_by").Message("创建人最长为100字符")
+	valid.Required(name, "created_by").Message("创建人不能为空")
+	valid.MaxSize(name, 100, "created_by").Message("创建人最长为100字符")
 	valid.MaxSize(name, 100, "name").Message("名称最长为100字符")
 	valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
 
@@ -72,7 +72,7 @@ func AddTag(c *gin.Context) {
 	if !valid.HasErrors() {
 		if !models.ExistTagByName(name) {
 			code = e.SUCCESS
-			models.AddTag(name, state, createBy)
+			models.AddTag(name, state, createdBy)
 		} else {
 			code = e.ERROR_NOT_EXIST_TAG
 		}

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -8,10 +9,10 @@ import (
 
 type Tag struct {
 	Model
-	Name       string `json:name`
-	CreateBy   string `json:created_by`
-	ModifiedBy string `json:modified_by`
-	State      int    `json:state`
+	Name       string `json:"name"`
+	CreatedBy  string `json:"created_by"`
+	ModifiedBy string `json:"modified_by"`
+	State      int    `json:"state"`
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
@@ -56,12 +57,17 @@ func ExistTagById(id int) bool {
 }
 
 //新增标签
-func AddTag(name string, state int, createBy string) bool {
-	db.Create(&Tag{
-		Name:     name,
-		State:    state,
-		CreateBy: createBy,
-	})
+func AddTag(name string, state int, createdBy string) bool {
+	err := db.Create(&Tag{
+		Name:      name,
+		State:     state,
+		CreatedBy: createdBy,
+	}).Error
+
+	if err != nil {
+		log.Println(err)
+	}
+
 	return true
 }
 

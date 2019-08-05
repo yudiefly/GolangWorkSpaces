@@ -13,9 +13,11 @@ import (
 var db *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:id`
-	CreateOn   int `json:created_on`
-	ModifiedOn int `json:modified_on`
+	ID         int `gorm:"primary_key" json:"id"`
+	CreatedOn  int `json:"created_on"`
+	ModifiedOn int `json:"modified_on"`
+
+	//DeletedOn  int `json:"deleted_on"`
 }
 
 func init() {
@@ -34,8 +36,6 @@ func init() {
 	host = sec.Key("HOST").String()
 	tablePrefix = sec.Key("TABLE_PREFIX").String()
 
-	fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=ture&loc=Local", user, password, host, dbName)
-
 	db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=ture&loc=Local", user, password, host, dbName))
 
 	if err != nil {
@@ -47,9 +47,11 @@ func init() {
 	}
 
 	db.SingularTable(true)
+
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 }
+
 func CloseDB() {
 	defer db.Close()
 }

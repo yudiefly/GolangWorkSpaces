@@ -9,17 +9,23 @@ import (
 )
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:id`
-	CreateOn   int `json:created_on`
-	ModifiedOn int `json:modified_on`
+	ID         int `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
+	CreatedOn  int `json:"created_on"`
+	ModifiedOn int `json:"modified_on"`
 }
 
-type BlogTag struct {
+type Language struct {
+	ID   int    `gorm:"primary_key;AUTO_INCREMENT"`
+	Name string `gorm:"name"`
+	Code string `gorm:"code"`
+}
+
+type Tag struct {
 	Model
-	Name       string `json:name`
-	CreateBy   string `json:created_by`
-	ModifiedBy string `json:modified_by`
-	State      int    `json:state`
+	Name       string `json:"name"`
+	CreatedBy  string `json:"created_by"`
+	ModifiedBy string `json:"modified_by"`
+	State      int    `json:"state"`
 }
 
 func main() {
@@ -27,21 +33,34 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
-	myTag := BlogTag{
-		Name:       "test-one",
-		CreateBy:   "testadmin",
-		ModifiedBy: "testadmin",
-		State:      1,
+	//本来是按照模型的名字来定位表名，该行则指定每个模型的名字前面加上”blog_”前缀后才是表名
+	gorm.DefaultTableNameHandler = func(db *gorm.DB, defualtTableName string) string {
+		return "blog_" + defualtTableName
 	}
+
+	defer db.Close()
 
 	db.SingularTable(true)
 
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 
-	db.Exec("INSERT INTO blog_tag(name,created_on,created_by,modified_on,modified_by,state) VALUES ('test-one', 'testadmin','testadmin','0','testadmin','1');", nil)
-	db.Create(&myTag)
+	//db.Exec()方法执行，下面的代码是错误的
+	//db.Exec("INSERT INTO blog_tag(name,created_on,created_by,modified_on,modified_by,state) VALUES ('test-one-in', 'testadmin','testadmin','0','testadmin','1')", nil)
+
+	tt := db.Create(&Tag{
+		Name:       "test-one-2",
+		CreatedBy:  "testadmin-2",
+		ModifiedBy: "testadmin-2",
+		State:      0,
+	}).Error
+
+	log.Println(tt)
+
+	// db.Create(&Language{
+	// 	Code: "c004",
+	// 	Name: "NM-0004",
+	// })
 
 }
