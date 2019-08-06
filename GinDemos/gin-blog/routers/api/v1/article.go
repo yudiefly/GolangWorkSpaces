@@ -6,6 +6,7 @@ import (
 
 	"gin-blog/models"
 	"gin-blog/pkg/e"
+	"gin-blog/pkg/logging"
 	"gin-blog/pkg/setting"
 	"gin-blog/pkg/util"
 
@@ -69,7 +70,8 @@ func GetArticles(c *gin.Context) {
 
 		list, err := models.GetArticles(util.GetPage(c), setting.PageSize, maps)
 		if err != nil {
-			log.Fatal(err)
+			//log.Fatal(err)
+			logging.Fatal(err)
 		} else {
 			data["list"] = list
 		}
@@ -78,7 +80,8 @@ func GetArticles(c *gin.Context) {
 
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			//log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -188,7 +191,8 @@ func EditArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			//log.Println(err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
