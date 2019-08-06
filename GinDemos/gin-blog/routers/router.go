@@ -1,8 +1,9 @@
 package routers
 
 import (
+	"gin-blog/middleware/jwt"
 	"gin-blog/pkg/setting"
-
+	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
 
 	"github.com/gin-gonic/gin"
@@ -23,8 +24,13 @@ func InitRouter() *gin.Engine {
 	//	})
 	//})
 
-	//注册路由
+	//注册路由（认证/获取Token）
+	r.GET("/auth", api.GetAuth)
+
+	//注册路由（标签管理、文章管理）
 	apiv1 := r.Group("/api/v1")
+	//引入中间件
+	apiv1.Use(jwt.JWT())
 	{
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)

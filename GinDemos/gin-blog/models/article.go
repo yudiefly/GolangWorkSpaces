@@ -50,14 +50,19 @@ func GetArticleTotal(maps interface{}) (count int) {
 // 	return
 // }
 
-func GetArticles(pageNum int, pageSize int, maps interface{}) ([]Article, error) {
+func GetArticles(pageNum int, pageSize int, maps interface{}) ([]*Article, error) {
 
-	var articles []Article
-	err := db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	// var articles []Article
+	// err := db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
+	// if err != nil && err != gorm.ErrRecordNotFound {
+	// 	return nil, err
+	// }
+
+	var articles []*Article
+	err := db.Where(maps).Find(&articles).Offset(pageNum).Limit(pageSize).Error
+	if err != nil {
 		return nil, err
 	}
-
 	return articles, nil
 }
 
