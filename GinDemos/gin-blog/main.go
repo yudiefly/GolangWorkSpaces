@@ -16,15 +16,8 @@ import (
 func main() {
 
 	//注册路由
-	//router:=gin.Default()
-	//router.GET("/test",func(c *gin.Context){
-	//	c.JSON(200,gin.H{
-	//		"message":"test"
-	//	})
-	//})
-
 	router := routers.InitRouter()
-
+	//注册http服务器
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
 		Handler:        router,
@@ -32,5 +25,6 @@ func main() {
 		WriteTimeout:   setting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
+	//启动http server
 	s.ListenAndServe()
 }

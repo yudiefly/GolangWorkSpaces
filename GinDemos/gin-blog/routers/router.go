@@ -23,12 +23,7 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
-	//r.GET("/test", func(c *gin.Context) {
-	//	c.JSON(200, gin.H{
-	//		"message": "test",
-	//	})
-	//})
-
+	//注册swagger支持
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//注册路由（认证/获取Token）
