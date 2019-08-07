@@ -7,6 +7,11 @@ import (
 	"gin-blog/routers/api/v1"
 
 	"github.com/gin-gonic/gin"
+
+	_ "gin-blog/docs"
+
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -23,6 +28,8 @@ func InitRouter() *gin.Engine {
 	//		"message": "test",
 	//	})
 	//})
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//注册路由（认证/获取Token）
 	r.GET("/auth", api.GetAuth)

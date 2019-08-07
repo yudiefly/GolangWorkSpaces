@@ -1,0 +1,403 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "An example of gin",
+        "title": "Golang Gin API",
+        "termsOfService": "https://github.com/EDDYCJY/go-gin-example",
+        "contact": {},
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/EDDYCJY/go-gin-example/blob/master/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/articles": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取多个文章",
+                "parameters": [
+                    {
+                        "description": "TagID",
+                        "name": "tag_id",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    },
+                    {
+                        "description": "State",
+                        "name": "state",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    },
+                    {
+                        "description": "CreatedBy",
+                        "name": "created_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{\"list\":[],\"TotalCount\":8},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增文章",
+                "parameters": [
+                    {
+                        "description": "TagID",
+                        "name": "tag_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    },
+                    {
+                        "description": "Title",
+                        "name": "title",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "Desc",
+                        "name": "desc",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "Content",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "CreatedBy",
+                        "name": "created_by",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "State",
+                        "name": "state",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/articles/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取单个文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "修改文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "TagID",
+                        "name": "tag_id",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "Title",
+                        "name": "title",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "Desc",
+                        "name": "desc",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "Content",
+                        "name": "content",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "ModifiedBy",
+                        "name": "modified_by",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/string"
+                        }
+                    },
+                    {
+                        "description": "State",
+                        "name": "state",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tags": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取多个文章标签",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增文章标签",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tags/{id}": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "修改文章标签",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除文章标签",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Auth",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userName",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "password",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"code\":500,\"data\":{},\"msg\":\"系统错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -23,7 +23,13 @@ GetTags的相关注释：
 【在获取标签列表接口中，我们可以根据name、state、page来筛选查询条件，分页的步长可通过app.ini进行配置，以lists、total的组合返回达到分页效果。】
 */
 
-//获取多个文章标签
+// @Summary 获取多个文章标签
+// @Produce  json
+// @Parameter  name query string false "Name"
+// @Parameter  state query int false "State"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/tags [get]
 func GetTags(c *gin.Context) {
 	name := c.Query("name")
 
@@ -65,7 +71,14 @@ func GetTags(c *gin.Context) {
 /*
  用Postman用POST访问http://127.0.0.1:8000/api/v1/tags?name=1&state=1&created_by=test，查看code是否返回200及blog_tag表中是否有值，有值则正确。
 */
-//新增文章标签
+
+// @Summary 新增文章标签
+// @Produce  json
+// @Parameter  name query string true "Name"
+// @Parameter  state query int false "State"
+// @Parameter  created_by query int false "CreatedBy"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [post]
 func AddTag(c *gin.Context) {
 	name := c.Query("name")
 	state, _ := com.StrTo(c.DefaultQuery("state", "0")).Int()
@@ -101,6 +114,14 @@ func AddTag(c *gin.Context) {
 }
 
 //修改文章标签
+// @Summary 修改文章标签
+// @Produce  json
+// @Parameter  id param int true "ID"
+// @Parameter  name query string true "ID"
+// @Parameter  state query int false "State"
+// @Parameter  modified_by query string true "ModifiedBy"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags/{id} [put]
 func EditTag(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 	name := c.Query("name")
@@ -144,7 +165,12 @@ func EditTag(c *gin.Context) {
 	})
 }
 
-//删除文章标签
+// @Summary 删除文章标签
+// @Produce  json
+// @Parameter  id path int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/tags/{id} [delete]
 func DeleteTag(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 	valid := validation.Validation{}

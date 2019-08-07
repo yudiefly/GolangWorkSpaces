@@ -15,7 +15,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//获取单个文章
+// @Summary 获取单个文章
+// @Produce  json
+// @Parameter  id query int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/articles/{id} [get]
 func GetArticle(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 
@@ -43,7 +48,14 @@ func GetArticle(c *gin.Context) {
 	})
 }
 
-//获取多个文章
+// @Summary 获取多个文章
+// @Produce  json
+// @Parameter  tag_id query int false "TagID"
+// @Parameter  state query int false "State"
+// @Parameter  created_by query int false "CreatedBy"
+// @Success 200 {string} json "{"code":200,"data":{"list":[],"TotalCount":8},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/articles [get]
 func GetArticles(c *gin.Context) {
 	data := make(map[string]interface{})
 	maps := make(map[string]interface{})
@@ -91,7 +103,17 @@ func GetArticles(c *gin.Context) {
 	})
 }
 
-//新增文章
+// @Summary 新增文章
+// @Produce  json
+// @Parameter  tag_id query int true "TagID"
+// @Parameter  title query string true "Title"
+// @Parameter  desc query string true "Desc"
+// @Parameter  content query string true "Content"
+// @Parameter  created_by query string true "CreatedBy"
+// @Parameter  state query int true "State"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/articles [post]
 func AddArticle(c *gin.Context) {
 	tagId, _ := com.StrTo(c.Query("tag_id")).Int()
 	title := c.Query("title")
@@ -137,7 +159,18 @@ func AddArticle(c *gin.Context) {
 
 }
 
-//修改文章
+// @Summary 修改文章
+// @Produce  json
+// @Parameter  id path int true "ID"
+// @Parameter  tag_id query string false "TagID"
+// @Parameter  title query string false "Title"
+// @Parameter  desc query string false "Desc"
+// @Parameter  content query string false "Content"
+// @Parameter  modified_by query string true "ModifiedBy"
+// @Parameter  state query int false "State"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/articles/{id} [put]
 func EditArticle(c *gin.Context) {
 	valid := validation.Validation{}
 
@@ -202,7 +235,12 @@ func EditArticle(c *gin.Context) {
 	})
 }
 
-//删除文章
+// @Summary 删除文章
+// @Produce  json
+// @Parameter  id query int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 500 {string} json "{"code":500,"data":{},"msg":"系统错误"}"
+// @Router /api/v1/articles/{id} [delete]
 func DeleteArticle(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 

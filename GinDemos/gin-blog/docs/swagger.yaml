@@ -1,0 +1,266 @@
+info:
+  contact: {}
+  description: An example of gin
+  license:
+    name: MIT
+    url: https://github.com/EDDYCJY/go-gin-example/blob/master/LICENSE
+  termsOfService: https://github.com/EDDYCJY/go-gin-example
+  title: Golang Gin API
+  version: "1.0"
+paths:
+  /api/v1/articles:
+    get:
+      parameters:
+      - description: TagID
+        in: body
+        name: tag_id
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      - description: State
+        in: body
+        name: state
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      - description: CreatedBy
+        in: body
+        name: created_by
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{"list":[],"TotalCount":8},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 获取多个文章
+    post:
+      parameters:
+      - description: TagID
+        in: body
+        name: tag_id
+        required: true
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      - description: Title
+        in: body
+        name: title
+        required: true
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: Desc
+        in: body
+        name: desc
+        required: true
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: Content
+        in: body
+        name: content
+        required: true
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: CreatedBy
+        in: body
+        name: created_by
+        required: true
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: State
+        in: body
+        name: state
+        required: true
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 新增文章
+  /api/v1/articles/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 删除文章
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 获取单个文章
+    put:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: TagID
+        in: body
+        name: tag_id
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: Title
+        in: body
+        name: title
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: Desc
+        in: body
+        name: desc
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: Content
+        in: body
+        name: content
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: ModifiedBy
+        in: body
+        name: modified_by
+        required: true
+        schema:
+          $ref: '#/definitions/string'
+          type: object
+      - description: State
+        in: body
+        name: state
+        schema:
+          $ref: '#/definitions/int'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 修改文章
+  /api/v1/tags:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 获取多个文章标签
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+      summary: 新增文章标签
+  /api/v1/tags/{id}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: 删除文章标签
+    put:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+      summary: 修改文章标签
+  /auth:
+    get:
+      parameters:
+      - description: userName
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "500":
+          description: '{"code":500,"data":{},"msg":"系统错误"}'
+          schema:
+            type: string
+      summary: Get Auth
+swagger: "2.0"
