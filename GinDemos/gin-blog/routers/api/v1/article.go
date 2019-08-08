@@ -80,7 +80,8 @@ func GetArticles(c *gin.Context) {
 	if !valid.HasErrors() {
 		code = e.SUCCESS
 
-		list, err := models.GetArticles(util.GetPage(c), setting.PageSize, maps)
+		//list, err := models.GetArticles(util.GetPage(c), setting.PageSize, maps)
+		list, err := models.GetArticles(util.GetPage(c), setting.AppSetting.PageSize, maps)
 		if err != nil {
 			//log.Fatal(err)
 			logging.Fatal(err)

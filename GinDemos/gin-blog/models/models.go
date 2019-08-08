@@ -22,44 +22,50 @@ type Model struct {
 
 func init() {
 
-	var (
-		err                                               error
-		dbType, dbName, user, password, host, tablePrefix string
-	)
+	/*
+		marked by zzh203 2019-8-7 14:32
+		// var (
+		// 	err                                               error
+		// 	dbType, dbName, user, password, host, tablePrefix string
+		// )
 
-	sec, err := setting.Cfg.GetSection("database")
+		// sec, err := setting.Cfg.GetSection("database")
 
-	if err != nil {
-		log.Fatal(2, "Fail to get section 'database:'%v", err)
-	}
+		// if err != nil {
+		// 	log.Fatal(2, "Fail to get section 'database:'%v", err)
+		// }
 
-	dbType = sec.Key("TYPE").String()
+		// dbType = sec.Key("TYPE").String()
 
-	dbName = sec.Key("NAME").String()
-	user = sec.Key("USER").String()
-	password = sec.Key("PASSWORD").String()
-	host = sec.Key("HOST").String()
+		// dbName = sec.Key("NAME").String()
+		// user = sec.Key("USER").String()
+		// password = sec.Key("PASSWORD").String()
+		// host = sec.Key("HOST").String()
 
-	tablePrefix = sec.Key("TABLE_PREFIX").String()
+		// tablePrefix = sec.Key("TABLE_PREFIX").String()
 
-	connStr3 := "root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
-	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, dbName)
-	connStr2 := user + ":" + password + "@tcp(" + host + ")/" + dbName + "?charset=utf8&parseTime=True&loc=Local"
+		// connStr3 := "root:tjazzh203@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
+		// connStr2 := user + ":" + password + "@tcp(" + host + ")/" + dbName + "?charset=utf8&parseTime=True&loc=Local"
+	*/
+
+	var err error
+
+	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", setting.DatabaseSetting.User, setting.DatabaseSetting.Password, setting.DatabaseSetting.Host, setting.DatabaseSetting.Name)
+
+	// fmt.Println(connStr2)
+	// fmt.Println(connStr3)
+	// fmt.Println(connStr == connStr3)
 
 	fmt.Println(connStr)
-	fmt.Println(connStr2)
-	fmt.Println(connStr3)
 
-	fmt.Println(connStr == connStr3)
-
-	db, err = gorm.Open(dbType, connStr)
+	db, err = gorm.Open(setting.DatabaseSetting.Type, connStr) //gorm.Open(dbType, connStr)
 
 	if err != nil {
 		log.Println(err)
 	}
 	//获取带数据库表名的gorm.DefaultTableNameHandler值
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defualtTableName string) string {
-		return tablePrefix + defualtTableName
+		return setting.DatabaseSetting.TablePrefix + defualtTableName
 	}
 
 	db.SingularTable(true)
@@ -114,6 +120,7 @@ func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 	【scope.CombinedConditionSql() 】	返回组合好的条件SQL，看一下方法原型很明了
 	【scope.AddToVars】					该方法可以添加值作为SQL的参数，也可用于防范SQL注入
 */
+
 func deleteCallback(scope *gorm.Scope) {
 	if !scope.HasError() {
 		var extraOption string

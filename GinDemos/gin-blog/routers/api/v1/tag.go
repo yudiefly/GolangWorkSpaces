@@ -47,7 +47,8 @@ func GetTags(c *gin.Context) {
 	}
 	code := e.SUCCESS
 
-	list, err := models.GetTags(util.GetPage(c), setting.PageSize, maps)
+	//list, err := models.GetTags(util.GetPage(c), setting.PageSize, maps)
+	list, err := models.GetTags(util.GetPage(c), setting.AppSetting.PageSize, maps)
 	if err != nil {
 		log.Fatal(err)
 	} else {
