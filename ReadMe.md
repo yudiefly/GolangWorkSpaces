@@ -51,7 +51,13 @@
 |GormDemo/BasicEx|基础的Demo||
 |github.com/jinzhu/gorm|..|..|
 
- 								 
+## CronDemo(定时任务的Demo)
+ 	
+|项目名|说明|备注|
+|-|-|-|
+|CronDemo|关于定时任务的Demo||
+|github.com/robfig/cron|..|..|
+								 
 -----------------------------------------------------------------------------------------									
 
 
