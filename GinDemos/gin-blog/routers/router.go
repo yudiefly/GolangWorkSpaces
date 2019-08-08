@@ -1,17 +1,17 @@
 package routers
 
 import (
+
+	// _ "gin-blog/docs"
+	// "github.com/swaggo/gin-swagger"
+	// "github.com/swaggo/gin-swagger/swaggerFiles"
+
 	"gin-blog/middleware/jwt"
 	"gin-blog/pkg/setting"
 	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
 
 	"github.com/gin-gonic/gin"
-
-	_ "gin-blog/docs"
-
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -23,8 +23,8 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
-	//注册swagger支持
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// //注册swagger支持
+	// r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//注册路由（认证/获取Token）
 	r.GET("/auth", api.GetAuth)
