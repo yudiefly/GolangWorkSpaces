@@ -10,9 +10,9 @@ import (
 type App struct {
 	JwtSecret       string
 	PageSize        int
-	RunTimeRootPath string
+	RuntimeRootPath string
 
-	ImagePrefixUrl string
+	PrefixUrl      string
 	ImageSavePath  string
 	ImageMaxSize   int
 	ImageAllowExts []string
