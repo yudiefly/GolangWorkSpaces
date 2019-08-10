@@ -6,7 +6,13 @@ import (
 	"gin-blog/routers"
 	"log"
 	"net/http"
+
+	"gin-blog/pkg/gredis"
 )
+
+func init() {
+	gredis.Setup()
+}
 
 // @title Golang Gin API
 // @version 1.0

@@ -45,7 +45,23 @@ type DataBase struct {
 
 var DatabaseSetting = &DataBase{}
 
+type Redis struct {
+	Host        string
+	Password    string
+	MaxIdle     int
+	MaxActive   int
+	IdleTimeout time.Duration
+}
+
+var RedisSetting = &Redis{}
+
 /*
+    Host = 127.0.0.1:6379
+Password =
+MaxIdle = 30
+MaxActive = 30
+IdleTimeout = 200
+
 	相关知识点备份：
 	编写与配置项保持一致的结构体（App、Server、Database）
 	使用 MapTo 将配置项映射到结构体上
@@ -79,6 +95,13 @@ func init() {
 	if err != nil {
 		log.Fatalf("Cfg.MapTo DatabaseSetting err: %v", err)
 	}
+
+	err = Cfg.Section("Redis").MapTo(RedisSetting)
+	if err != nil {
+		log.Fatalf("Cfg.MapTo RedisSetting err:%v", err)
+	}
+
+	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
 }
 
 /*

@@ -53,30 +53,33 @@ func GetTagTotal(maps interface{}) (int, error) {
 */
 
 //判断标签是否存在
-func ExistTagByName(name string) bool {
+func ExistTagByName(name string) (bool, error) {
 	var tag Tag
-	db.Select("id").Where("name=?", name).First(&tag)
-	if tag.ID > 0 {
-		return true
+	err := db.Select("id").Where("name=? AND deleted_on=?", name, 0).First(&tag).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
 	}
-	return false
+	if tag.ID > 0 {
+		return true, nil
+	}
+	return false, nil
 }
 
 //AND deleted_on=?   , 0
-func ExistTagById(id int) bool {
+func ExistTagById(id int) (bool, error) {
 	var tag Tag
-	err := db.Select("id").Where("id=? ", id).First(&tag).Error
+	err := db.Select("id").Where("id=? AND deleted_on=?", id, 0).First(&tag).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return false
+		return false, err
 	}
 	if tag.ID > 0 {
-		return true
+		return true, nil
 	}
-	return false
+	return false, nil
 }
 
 //新增标签
-func AddTag(name string, state int, createdBy string) bool {
+func AddTag(name string, state int, createdBy string) error {
 	err := db.Create(&Tag{
 		Name:      name,
 		State:     state,
@@ -85,19 +88,28 @@ func AddTag(name string, state int, createdBy string) bool {
 
 	if err != nil {
 		log.Println(err)
+		return err
 	}
 
-	return true
+	return nil
 }
 
-func DeleteTag(id int) bool {
-	db.Where("id=?", id).Delete(&Tag{})
-	return true
+// DeleteTag delete a tag
+func DeleteTag(id int) error {
+	if err := db.Where("id = ?", id).Delete(&Tag{}).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func EditTag(id int, data interface{}) bool {
-	db.Model(&Tag{}).Where("id=?", id).Updates(data)
-	return true
+// EditTag modify a single tag
+func EditTag(id int, data interface{}) error {
+	if err := db.Model(&Tag{}).Where("id = ? AND deleted_on = ? ", id, 0).Updates(data).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 /*
@@ -109,6 +121,14 @@ func EditTag(id int, data interface{}) bool {
   删除：BeforeDelete、AfterDelete
   查询：AfterFind
 */
+
+func CleanAllTag() (bool, error) {
+	if err := db.Unscoped().Where("deleted_on != ? ", 0).Delete(&Tag{}).Error; err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
 
 func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("CreatedOn", time.Now().Unix())
