@@ -21,6 +21,8 @@ type App struct {
 	LogSaveName string
 	LogFileExt  string
 	TimeFormat  string
+
+	QrCodeSavePath string
 }
 
 var AppSetting = &App{}

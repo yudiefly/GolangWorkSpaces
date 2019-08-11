@@ -35,6 +35,12 @@ func CheckExist(src string) bool {
 	return os.IsNotExist(err)
 }
 
+func CheckNotExist(src string) bool {
+	_, err := os.Stat(src)
+
+	return os.IsNotExist(err)
+}
+
 func CheckPermission(src string) bool {
 	_, err := os.Stat(src)
 
