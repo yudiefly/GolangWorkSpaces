@@ -8,6 +8,40 @@ import (
 
 var db = make(map[string]string)
 
+/*
+	gin获取从Post请求中的JSON参数
+	示例：http://127.0.0.1:8080/login
+	参数（Body）：
+		{
+		"user":"yudiefly",
+		"password":"1234",
+		"data":{
+				"number":12,
+				"rows":1
+			   }
+		}
+	返回：
+		{
+		    "data": {
+		        "Number": 12,
+		        "rows": 1
+		    },
+		    "status": "you are logged in"
+		}
+
+*/
+
+type LoginForm struct {
+	User     string         `form:"user" binding:"required"`
+	Password string         `form:"password" binding:"required"`
+	Data     UserCenterData `form:"data" json:"data"`
+}
+
+type UserCenterData struct {
+	Number int `josn:"number"`
+	Rows   int `json:"rows"`
+}
+
 func setupRouter() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
@@ -16,6 +50,22 @@ func setupRouter() *gin.Engine {
 	//Ping test
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
+	})
+
+	r.POST("/login", func(c *gin.Context) {
+		var form LoginForm
+
+		if c.ShouldBindJSON(&form) == nil {
+			//c.ShouldBind(&form)
+			if form.User == "yudiefly" && form.Password == "1234" {
+				c.JSON(200, gin.H{
+					"status": "you are logged in",
+					"data":   form.Data,
+				})
+			} else {
+				c.JSON(401, gin.H{"status": "unauthorized"})
+			}
+		}
 	})
 
 	//Get user value
