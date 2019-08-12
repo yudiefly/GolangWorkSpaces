@@ -7,6 +7,7 @@ import (
 	// "github.com/swaggo/gin-swagger/swaggerFiles"
 
 	"gin-blog/middleware/jwt"
+	"gin-blog/pkg/qrcode"
 	"gin-blog/pkg/setting"
 	"gin-blog/pkg/upload"
 	"gin-blog/routers/api"
@@ -34,11 +35,15 @@ func InitRouter() *gin.Engine {
 	r.GET("/auth", api.GetAuth)
 	//实现图片文件的访问
 	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
+
+	r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
+
 	//上传图片
 	r.POST("/upload", api.UploadImage)
 
 	//注册路由（标签管理、文章管理）
 	apiv1 := r.Group("/api/v1")
+
 	//引入中间件
 	apiv1.Use(jwt.JWT())
 	{
@@ -60,6 +65,8 @@ func InitRouter() *gin.Engine {
 		apiv1.PUT("/articles/:id", v1.EditArticle)
 		//删除指定文章
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
+		//生成二维码图片
+		apiv1.POST("/articles/poster/generate", v1.GetnerateArticlePoster)
 
 	}
 	return r

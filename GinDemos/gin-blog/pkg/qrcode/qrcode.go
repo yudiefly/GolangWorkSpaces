@@ -30,7 +30,7 @@ func NewQrCode(url string, width, height int, level qr.ErrorCorrectionLevel, mod
 		Width:  width,
 		Height: height,
 		Level:  level,
-		Model:  mode,
+		Mode:   mode,
 		Ext:    EXT_JPG,
 	}
 }
