@@ -57,6 +57,13 @@
 |-|-|-|
 |CronDemo|关于定时任务的Demo||
 |github.com/robfig/cron|..|..|
+
+## Go-Sql-Driver(Demo)
+
+|项目名|说明|备注|
+|-|-|-|
+|go_sql_driver/mysql|直接操作mysql的Demo|..|
+|github.com/go-sql-driver/|..|..|
 								 
 -----------------------------------------------------------------------------------------									
 
