@@ -29,15 +29,18 @@ func main() {
 	// 	name: "zzh203-1",
 	// 	code: "yuidefly-1",
 	// })
-	fmt.Println("Query datas from blog_languages...")
+	// fmt.Println("Query datas from blog_languages...")
+	// query()
+	// update(blogLanguage{
+	// 	id:   8,
+	// 	name: "朱宗海",
+	// 	code: "ZZH",
+	// })
+	// fmt.Println("Update datas from blog_languages and query...")
 	query()
-	update(blogLanguage{
-		id:   8,
-		name: "朱宗海",
-		code: "ZZH",
-	})
-	fmt.Println("Update datas from blog_languages and query...")
-	query()
+	fmt.Println("Query datas from blog_languages by id...")
+	GetLanguage(9)
+
 	//关闭数据库链接
 	close()
 }
@@ -67,8 +70,19 @@ func delete(id int) {
 	stmt, err := db.Prepare("delete from blog_language where id=?")
 	checkErr(err)
 
-	res, err = stmt.Exec(id)
+	res, err := stmt.Exec(id)
 	checkErr(err)
+	fmt.Println(res)
+}
+
+func GetLanguage(id int) {
+	var uid int
+	var name string
+	var code string
+	err = db.QueryRow("select * from blog_language where id=?", id).Scan(&uid, &name, &code)
+	checkErr(err)
+
+	fmt.Printf("id=%d  name=%s code=%s \n", uid, name, code)
 }
 
 func query() {
