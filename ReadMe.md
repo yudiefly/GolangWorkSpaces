@@ -63,6 +63,7 @@
 |项目名|说明|备注|
 |-|-|-|
 |go_sql_driver/mysql|直接操作mysql的Demo|..|
+|go_sql_driver/mysql/sqlx|直接操作mysql（使用sqlx）的Demo|..|
 |github.com/go-sql-driver/|..|..|
 								 
 -----------------------------------------------------------------------------------------									
