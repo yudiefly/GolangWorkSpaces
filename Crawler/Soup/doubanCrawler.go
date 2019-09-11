@@ -13,7 +13,7 @@ import (
 func fetch(url string) soup.Root {
 	fmt.Println("Fetch Url", url)
 	soup.Headers = map[string]string{
-		"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+		"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)", //Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
 	}
 
 	source, err := soup.Get(url)

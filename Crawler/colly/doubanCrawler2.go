@@ -10,7 +10,7 @@ import (
 func main() {
 	c := colly.NewCollector(
 		colly.Async(true),
-		colly.UserAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"),
+		colly.UserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"),
 	)
 
 	c.Limit(&colly.LimitRule{DomainGlob: "*.douban.*", Parallelism: 5})

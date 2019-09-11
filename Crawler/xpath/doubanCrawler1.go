@@ -16,7 +16,7 @@ func fetch(url string) types.Document {
 	log.Println("Fetch Url", url)
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+	req.Header.Set("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)") //Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Http get err:", err)
