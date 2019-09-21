@@ -70,7 +70,11 @@
 |go_sql_driver/mysql|直接操作mysql的Demo|..|
 |go_sql_driver/mysql/sqlx|直接操作mysql（使用sqlx）的Demo|..|
 |github.com/go-sql-driver/|..|..|
-								 
+
+## FileStoreServer(仿百度云盘--分布式云存储系统)
+|项目名|说明|备注|
+|-|-|-|
+|..|..|..|								 
 -----------------------------------------------------------------------------------------									
 
 
