@@ -44,14 +44,19 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer newFile.Close()
-		_, err = io.Copy(newFile, file)
+
+		fileMeta.FileSize, err = io.Copy(newFile, file)
+
 		if err != nil {
 			fmt.Printf("Failed to save data into file,err:%s\n", err.Error())
 			return
 		}
+
 		newFile.Seek(0, 0)
 		fileMeta.FileSha1 = util.FileSha1(newFile)
 		meta.UpdateFileMeta(fileMeta)
+
+		fmt.Printf("FileHash:%s\n", fileMeta.FileSha1)
 
 		http.Redirect(w, r, "/file/upload/suc", http.StatusFound)
 	}
