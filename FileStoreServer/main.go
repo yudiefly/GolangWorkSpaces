@@ -17,4 +17,5 @@ func main() {
 	if err != nil {
 		fmt.Printf("Failed to start server,err:%s", err.Error())
 	}
+	fmt.Println("FileStore server is started and running……")
 }

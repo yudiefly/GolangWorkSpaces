@@ -54,7 +54,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		newFile.Seek(0, 0)
 		fileMeta.FileSha1 = util.FileSha1(newFile)
-		meta.UpdateFileMeta(fileMeta)
+		//meta.UpdateFileMeta(fileMeta)
+		_ = meta.UpdateFileMetaDB(fileMeta)
 
 		fmt.Printf("FileHash:%s\n", fileMeta.FileSha1)
 
@@ -73,7 +74,12 @@ func GetFileMetaHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	filehash := r.Form["filehash"][0]
-	fMeta := meta.GetFileMeta(filehash)
+	//fMeta := meta.GetFileMeta(filehash)
+	fMeta, err := meta.GetFileMetaDB(filehash)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	data, err := json.Marshal(fMeta)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -103,6 +109,7 @@ func DownloadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
+//FileMetaUpdateHandler：更新文件元信息接口
 func FileMetaUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	opType := r.Form.Get("op")
@@ -120,7 +127,8 @@ func FileMetaUpdateHandler(w http.ResponseWriter, r *http.Request) {
 
 	curFileMeta := meta.GetFileMeta(filesha1)
 	curFileMeta.FileName = newFileName
-	meta.UpdateFileMeta(curFileMeta)
+	//meta.UpdateFileMeta(curFileMeta)
+	meta.UpdateFileMetaDB(curFileMeta)
 
 	data, err := json.Marshal(curFileMeta)
 	if err != nil {
