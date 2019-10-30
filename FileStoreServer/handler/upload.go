@@ -2,15 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	dblayer "filestore_server/db"
+	"filestore_server/meta"
+	"filestore_server/util"
+
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
-
-	"filestore_server/meta"
-	"filestore_server/util"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +61,16 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("FileHash:%s\n", fileMeta.FileSha1)
 
-		http.Redirect(w, r, "/file/upload/suc", http.StatusFound)
+		//更新用户文件表记录
+		r.ParseForm()
+		username := r.Form.Get("username")
+		suc := dblayer.OnUserFileUploadFinished(username, fileMeta.FileSha1, fileMeta.FileName, fileMeta.FileSize)
+		if suc {
+			http.Redirect(w, r, "/static/view/home.html", http.StatusFound)
+		} else {
+			w.Write([]byte("Upload Failed."))
+		}
+		//http.Redirect(w, r, "/file/upload/suc", http.StatusFound)
 	}
 
 }
@@ -81,6 +92,27 @@ func GetFileMetaHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data, err := json.Marshal(fMeta)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Write(data)
+}
+
+// FileQueryHandler : 查询批量的文件元信息
+func FileQueryHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	limitCnt, _ := strconv.Atoi(r.Form.Get("limit"))
+	username := r.Form.Get("username")
+	//fileMetas, _ := meta.GetLastFileMetasDB(limitCnt)
+	userFiles, err := dblayer.QueryUserFileMetas(username, limitCnt)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	data, err := json.Marshal(userFiles)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
