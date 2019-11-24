@@ -5,7 +5,7 @@ import (
 
 	"github.com/bwmarrin/snowflake"
 )
-
+//主函数
 func main() {
 
 	// Create a new Node with a Node number of 1
