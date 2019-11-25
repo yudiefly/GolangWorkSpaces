@@ -19,7 +19,7 @@ func newRedisPool() *redis.Pool {
 		MaxIdle:     50,
 		MaxActive:   30,
 		IdleTimeout: 300 * time.Second,
-		Dail: func() (redis.Conn, error) {
+		Dial: func() (redis.Conn, error) {
 			// 1. 打开连接
 			c, err := redis.Dial("tcp", redisHost)
 			if err != nil {
@@ -38,7 +38,7 @@ func newRedisPool() *redis.Pool {
 			if time.Since(t) < time.Minute {
 				return nil
 			}
-			_, err = conn.Do("PING")
+			_, err := conn.Do("PING")
 			return err
 		},
 	}
