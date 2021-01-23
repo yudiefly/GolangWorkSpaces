@@ -28,6 +28,12 @@ func main() {
 	cell = row.AddCell()
 	cell.Value = "女"
 
+	row = sheet.AddRow()
+	cell = row.AddCell()
+	cell.Value = "王五"
+	cell = row.AddCell()
+	cell.Value = "男"
+
 	err = file.Save("demo.xlsx")
 	if err != nil {
 		panic(err.Error())
